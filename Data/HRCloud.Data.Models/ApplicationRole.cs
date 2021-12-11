@@ -1,12 +1,12 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+using System;
+
+using HRCloud.Data.Common.Models;
+
+using Microsoft.AspNetCore.Identity;
+
 namespace HRCloud.Data.Models
 {
-    using System;
-
-    using HRCloud.Data.Common.Models;
-
-    using Microsoft.AspNetCore.Identity;
-
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
         public ApplicationRole()

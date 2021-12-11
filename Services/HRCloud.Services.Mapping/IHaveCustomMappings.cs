@@ -1,7 +1,7 @@
-﻿namespace HRCloud.Services.Mapping
-{
-    using AutoMapper;
+﻿using AutoMapper;
 
+namespace HRCloud.Services.Mapping
+{
     public interface IHaveCustomMappings
     {
         void CreateMappings(IProfileExpression configuration);

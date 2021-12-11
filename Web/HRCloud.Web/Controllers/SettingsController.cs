@@ -1,15 +1,15 @@
-﻿namespace HRCloud.Web.Controllers
+﻿using System;
+using System.Threading.Tasks;
+
+using HRCloud.Data.Common.Repositories;
+using HRCloud.Data.Models;
+using HRCloud.Services.Data;
+using HRCloud.Web.ViewModels.Settings;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace HRCloud.Web.Controllers
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using HRCloud.Data.Common.Repositories;
-    using HRCloud.Data.Models;
-    using HRCloud.Services.Data;
-    using HRCloud.Web.ViewModels.Settings;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class SettingsController : BaseController
     {
         private readonly ISettingsService settingsService;

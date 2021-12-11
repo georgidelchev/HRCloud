@@ -1,26 +1,26 @@
-﻿namespace Sandbox
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+
+using HRCloud.Data;
+using HRCloud.Data.Common;
+using HRCloud.Data.Common.Repositories;
+using HRCloud.Data.Models;
+using HRCloud.Data.Repositories;
+using HRCloud.Data.Seeding;
+using HRCloud.Services.Data;
+using HRCloud.Services.Messaging;
+
+using CommandLine;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace Sandbox
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading.Tasks;
-
-    using HRCloud.Data;
-    using HRCloud.Data.Common;
-    using HRCloud.Data.Common.Repositories;
-    using HRCloud.Data.Models;
-    using HRCloud.Data.Repositories;
-    using HRCloud.Data.Seeding;
-    using HRCloud.Services.Data;
-    using HRCloud.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
     public static class Program
     {
         public static int Main(string[] args)

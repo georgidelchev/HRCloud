@@ -1,20 +1,20 @@
-﻿namespace HRCloud.Services.Data.Tests
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using HRCloud.Data;
+using HRCloud.Data.Common.Repositories;
+using HRCloud.Data.Models;
+using HRCloud.Data.Repositories;
+
+using Microsoft.EntityFrameworkCore;
+
+using Moq;
+
+using Xunit;
+
+namespace HRCloud.Services.Data.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using HRCloud.Data;
-    using HRCloud.Data.Common.Repositories;
-    using HRCloud.Data.Models;
-    using HRCloud.Data.Repositories;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using Moq;
-
-    using Xunit;
-
     public class SettingsServiceTests
     {
         [Fact]

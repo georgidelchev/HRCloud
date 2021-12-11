@@ -1,29 +1,26 @@
-﻿namespace HRCloud.Services.Data
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using HRCloud.Data.Common.Repositories;
+using HRCloud.Data.Models;
+using HRCloud.Services.Mapping;
+
+namespace HRCloud.Services.Data
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using HRCloud.Data.Common.Repositories;
-    using HRCloud.Data.Models;
-    using HRCloud.Services.Mapping;
-
     public class SettingsService : ISettingsService
     {
         private readonly IDeletableEntityRepository<Setting> settingsRepository;
 
-        public SettingsService(IDeletableEntityRepository<Setting> settingsRepository)
+        public SettingsService(
+            IDeletableEntityRepository<Setting> settingsRepository)
         {
             this.settingsRepository = settingsRepository;
         }
 
         public int GetCount()
-        {
-            return this.settingsRepository.AllAsNoTracking().Count();
-        }
+            => this.settingsRepository.AllAsNoTracking().Count();
 
         public IEnumerable<T> GetAll<T>()
-        {
-            return this.settingsRepository.All().To<T>().ToList();
-        }
+            => this.settingsRepository.All().To<T>().ToList();
     }
 }

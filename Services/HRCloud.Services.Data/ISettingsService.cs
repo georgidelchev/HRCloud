@@ -1,7 +1,7 @@
-﻿namespace HRCloud.Services.Data
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace HRCloud.Services.Data
+{
     public interface ISettingsService
     {
         int GetCount();

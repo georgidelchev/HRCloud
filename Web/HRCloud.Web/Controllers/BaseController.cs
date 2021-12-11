@@ -1,7 +1,7 @@
-﻿namespace HRCloud.Web.Controllers
-{
-    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
+namespace HRCloud.Web.Controllers
+{
     public class BaseController : Controller
     {
     }

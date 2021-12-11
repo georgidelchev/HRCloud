@@ -1,12 +1,12 @@
-﻿namespace HRCloud.Data
+﻿using System;
+using System.Threading.Tasks;
+
+using HRCloud.Data.Common;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace HRCloud.Data
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using HRCloud.Data.Common;
-
-    using Microsoft.EntityFrameworkCore;
-
     public class DbQueryRunner : IDbQueryRunner
     {
         public DbQueryRunner(ApplicationDbContext context)
@@ -24,6 +24,7 @@
         public void Dispose()
         {
             this.Dispose(true);
+
             GC.SuppressFinalize(this);
         }
 

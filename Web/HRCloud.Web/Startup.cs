@@ -1,27 +1,27 @@
-﻿namespace HRCloud.Web
+﻿using System.Reflection;
+
+using HRCloud.Data;
+using HRCloud.Data.Common;
+using HRCloud.Data.Common.Repositories;
+using HRCloud.Data.Models;
+using HRCloud.Data.Repositories;
+using HRCloud.Data.Seeding;
+using HRCloud.Services.Data;
+using HRCloud.Services.Mapping;
+using HRCloud.Services.Messaging;
+using HRCloud.Web.ViewModels;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace HRCloud.Web
 {
-    using System.Reflection;
-
-    using HRCloud.Data;
-    using HRCloud.Data.Common;
-    using HRCloud.Data.Common.Repositories;
-    using HRCloud.Data.Models;
-    using HRCloud.Data.Repositories;
-    using HRCloud.Data.Seeding;
-    using HRCloud.Services.Data;
-    using HRCloud.Services.Mapping;
-    using HRCloud.Services.Messaging;
-    using HRCloud.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public class Startup
     {
         private readonly IConfiguration configuration;

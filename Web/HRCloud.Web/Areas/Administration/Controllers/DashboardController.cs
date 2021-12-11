@@ -1,10 +1,10 @@
-﻿namespace HRCloud.Web.Areas.Administration.Controllers
+﻿using HRCloud.Services.Data;
+using HRCloud.Web.ViewModels.Administration.Dashboard;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace HRCloud.Web.Areas.Administration.Controllers
 {
-    using HRCloud.Services.Data;
-    using HRCloud.Web.ViewModels.Administration.Dashboard;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class DashboardController : AdministrationController
     {
         private readonly ISettingsService settingsService;

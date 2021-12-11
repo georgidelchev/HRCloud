@@ -1,9 +1,9 @@
-﻿namespace HRCloud.Data.Common.Repositories
+﻿using System.Linq;
+
+using HRCloud.Data.Common.Models;
+
+namespace HRCloud.Data.Common.Repositories
 {
-    using System.Linq;
-
-    using HRCloud.Data.Common.Models;
-
     public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {

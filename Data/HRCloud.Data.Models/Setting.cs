@@ -1,7 +1,7 @@
-﻿namespace HRCloud.Data.Models
-{
-    using HRCloud.Data.Common.Models;
+﻿using HRCloud.Data.Common.Models;
 
+namespace HRCloud.Data.Models
+{
     public class Setting : BaseDeletableModel<int>
     {
         public string Name { get; set; }

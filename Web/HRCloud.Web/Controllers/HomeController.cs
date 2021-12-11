@@ -1,11 +1,11 @@
-﻿namespace HRCloud.Web.Controllers
+﻿using System.Diagnostics;
+
+using HRCloud.Web.ViewModels;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace HRCloud.Web.Controllers
 {
-    using System.Diagnostics;
-
-    using HRCloud.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Mvc;
-
     public class HomeController : BaseController
     {
         public IActionResult Index()

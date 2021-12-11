@@ -1,10 +1,10 @@
-﻿namespace HRCloud.Web.ViewModels.Settings
+﻿using HRCloud.Data.Models;
+using HRCloud.Services.Mapping;
+
+using AutoMapper;
+
+namespace HRCloud.Web.ViewModels.Settings
 {
-    using HRCloud.Data.Models;
-    using HRCloud.Services.Mapping;
-
-    using AutoMapper;
-
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
         public int Id { get; set; }
