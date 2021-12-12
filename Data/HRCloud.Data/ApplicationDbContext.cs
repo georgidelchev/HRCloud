@@ -27,6 +27,12 @@ namespace HRCloud.Data
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Benefit> Benefits { get; set; }
+
+        public DbSet<Department> Departments { get; set; }
+
+        public DbSet<Job> Jobs { get; set; }
+
         public override int SaveChanges()
             => this.SaveChanges(true);
 

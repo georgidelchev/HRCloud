@@ -29,6 +29,9 @@ namespace HRCloud.Data.Seeding
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new DepartmentsSeeder(),
+                              new JobsSeeder(),
+                              new AdministratorSeeder(),
                           };
 
             foreach (var seeder in seeders)

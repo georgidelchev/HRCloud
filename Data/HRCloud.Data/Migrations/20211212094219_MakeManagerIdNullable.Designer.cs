@@ -4,14 +4,16 @@ using HRCloud.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRCloud.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211212094219_MakeManagerIdNullable")]
+    partial class MakeManagerIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,10 +70,6 @@ namespace HRCloud.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ApplicationUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("ManagerId");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -119,6 +117,12 @@ namespace HRCloud.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("ManagerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ManagerId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -163,6 +167,8 @@ namespace HRCloud.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("JobId");
+
+                    b.HasIndex("ManagerId1");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -438,9 +444,15 @@ namespace HRCloud.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("HRCloud.Data.Models.ApplicationUser", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerId1");
+
                     b.Navigation("Department");
 
                     b.Navigation("Job");
+
+                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("HRCloud.Data.Models.Benefit", b =>
