@@ -1,7 +1,6 @@
-﻿using HRCloud.Data.Models;
+﻿using AutoMapper;
+using HRCloud.Data.Models;
 using HRCloud.Services.Mapping;
-
-using AutoMapper;
 
 namespace HRCloud.Web.ViewModels.Settings
 {

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
+using CommandLine;
 using HRCloud.Data;
 using HRCloud.Data.Common;
 using HRCloud.Data.Common.Repositories;
@@ -11,9 +12,6 @@ using HRCloud.Data.Repositories;
 using HRCloud.Data.Seeding;
 using HRCloud.Services.Data;
 using HRCloud.Services.Messaging;
-
-using CommandLine;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
