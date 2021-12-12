@@ -1,16 +1,28 @@
 ﻿using System.Diagnostics;
-
+using System.Threading.Tasks;
+using HRCloud.Services.Data;
 using HRCloud.Web.ViewModels;
-
+using HRCloud.Web.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRCloud.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly IDepartmentsService departmentsService;
+
+        public HomeController(
+            IDepartmentsService departmentsService)
         {
-            return this.View();
+            this.departmentsService = departmentsService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var viewModel = await this.departmentsService
+                .GetAll<DepartmentViewModel>();
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -21,8 +33,7 @@ namespace HRCloud.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }
