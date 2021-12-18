@@ -26,7 +26,8 @@ namespace HRCloud.Web
     {
         private readonly IConfiguration configuration;
 
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration)
         {
             this.configuration = configuration;
         }
@@ -34,24 +35,26 @@ namespace HRCloud.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = _ => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
-            services.AddControllersWithViews(
-                options =>
-                    {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    }).AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).AddRazorRuntimeCompilation();
+
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -66,6 +69,7 @@ namespace HRCloud.Web
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IDepartmentsService, DepartmentsService>();
+            services.AddTransient<IEmployeesService, EmployeesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,9 +80,16 @@ namespace HRCloud.Web
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var dbContext = serviceScope
+                    .ServiceProvider
+                    .GetRequiredService<ApplicationDbContext>();
+
                 dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+
+                new ApplicationDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())
@@ -101,13 +112,12 @@ namespace HRCloud.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(
-                endpoints =>
-                    {
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapRazorPages();
-                    });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

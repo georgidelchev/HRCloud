@@ -1,0 +1,12 @@
+﻿@model IEnumerable<HRCloud.Web.ViewModels.Employees.EmployeeViewModel>
+
+@foreach (var employee in this.Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@employee.ImageUrl" alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text text-center">Full Name: @employee.FullName</p>
+            <p class="card-text text-center">Email: @employee.Email</p>
+        </div>
+    </div>
+}
