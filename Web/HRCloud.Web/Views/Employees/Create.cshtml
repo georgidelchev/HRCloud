@@ -6,11 +6,6 @@
         .Select(m => new SelectListItem(m.Value, m.Key))
         .ToList();
 
-    var departments = this.Model
-        .Departments
-        .Select(m => new SelectListItem(m.Value, m.Key.ToString()))
-        .ToList();
-
     var jobs = this.Model
         .Jobs
         .Select(m => new SelectListItem(m.Value, m.Key.ToString()))
@@ -135,17 +130,13 @@
     </div>
 
     <div>
-        <span asp-validation-for="DepartmentId" class="text-danger"></span>
-
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <label asp-for="DepartmentId" class="input-group-text">
-                    <i class="fas fa-list-ol"></i>
+                <label asp-for="DepartmentName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
                 </label>
             </div>
-            <select id="category-selector" asp-for="DepartmentId" class="form-control" asp-items="departments">
-                <option selected disabled>Choose Department</option>
-            </select>
+            <input asp-for="DepartmentName" readonly="readonly" class="form-control" />
         </div>
     </div>
 

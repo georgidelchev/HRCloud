@@ -19,20 +19,22 @@ namespace HRCloud.Services.Data
         private readonly IServiceProvider serviceProvider;
         private readonly IDeletableEntityRepository<ApplicationUser> employeesRepository;
         private readonly IImageProcessingService imageProcessingService;
+        private readonly IDepartmentsService departmentsService;
 
         public EmployeesService(
             IServiceProvider serviceProvider,
             IDeletableEntityRepository<ApplicationUser> employeesRepository,
-            IImageProcessingService imageProcessingService)
+            IImageProcessingService imageProcessingService,
+            IDepartmentsService departmentsService)
         {
             this.serviceProvider = serviceProvider;
             this.employeesRepository = employeesRepository;
             this.imageProcessingService = imageProcessingService;
+            this.departmentsService = departmentsService;
         }
 
         public async Task<bool> Create(CreateEmployeeInputModel input, string webRoot)
         {
-
             var userManager = this.serviceProvider
                 .GetRequiredService<UserManager<ApplicationUser>>();
 
@@ -45,7 +47,7 @@ namespace HRCloud.Services.Data
                 Surname = input.SurName,
                 LastName = input.LastName,
                 HireDate = DateTime.UtcNow,
-                DepartmentId = input.DepartmentId,
+                DepartmentId = this.departmentsService.GetIdByName(input.DepartmentName),
                 JobId = input.JobId,
                 Salary = input.Salary,
                 PhoneNumber = input.PhoneNumber,

@@ -27,9 +27,7 @@ namespace HRCloud.Web.ViewModels.Employees
         [FileExtensions(Extensions = ".pdf")]
         public IFormFile WelcomeCard { get; set; }
 
-        public IEnumerable<KeyValuePair<int, string>> Departments { get; set; }
-
-        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
 
         public IEnumerable<KeyValuePair<int, string>> Jobs { get; set; }
 

@@ -44,9 +44,8 @@ namespace HRCloud.Web.Controllers
             var viewModel = new CreateEmployeeInputModel()
             {
                 Mentors = await this.employeesService.GetAllAsKvp(departmentSource),
-                Departments = await this.departmentsService.GetAllAsKvp(),
+                DepartmentName = departmentSource,
                 Jobs = await this.jobsService.GetAllAsKvp(),
-                DepartmentId = this.departmentsService.GetIdByName(departmentSource),
             };
             return this.View(viewModel);
         }
@@ -55,7 +54,8 @@ namespace HRCloud.Web.Controllers
         public async Task<IActionResult> Create(CreateEmployeeInputModel input)
         {
             await this.employeesService.Create(input, this.webHostEnvironment.WebRootPath);
-            var redirectUrl = $"/{this.ControllerContext.ActionDescriptor.ControllerName}/{nameof(this.All)}?departmentName={this.departmentsService.GetNameById(input.DepartmentId)}";
+
+            var redirectUrl = $"/{this.ControllerContext.ActionDescriptor.ControllerName}/{nameof(this.All)}?departmentName={input.DepartmentName}";
 
             return this.Redirect(redirectUrl);
         }
