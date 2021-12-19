@@ -11,6 +11,7 @@ using HRCloud.Data.Models;
 using HRCloud.Data.Repositories;
 using HRCloud.Data.Seeding;
 using HRCloud.Services.Data;
+using HRCloud.Services.Data.Interfaces;
 using HRCloud.Services.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

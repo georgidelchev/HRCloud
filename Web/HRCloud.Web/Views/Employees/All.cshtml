@@ -1,6 +1,10 @@
-﻿@model IEnumerable<HRCloud.Web.ViewModels.Employees.EmployeeViewModel>
+﻿@model HRCloud.Web.ViewModels.Employees.ListEmployeesViewModel
 
-@foreach (var employee in this.Model)
+<div class="text-center">
+    <a asp-controller="Employees" asp-action="Create" asp-route-departmentSource="@this.Model.DepartmentName" asp-area="" class="text-success"><i class="fas fa-plus"></i></a>
+</div>
+
+@foreach (var employee in this.Model.Employees)
 {
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="@employee.ImageUrl" alt="Card image cap">

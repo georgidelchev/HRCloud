@@ -7,6 +7,7 @@ using HRCloud.Data.Models;
 using HRCloud.Data.Repositories;
 using HRCloud.Data.Seeding;
 using HRCloud.Services.Data;
+using HRCloud.Services.Data.Interfaces;
 using HRCloud.Services.Mapping;
 using HRCloud.Services.Messaging;
 using HRCloud.Web.ViewModels;
@@ -70,6 +71,7 @@ namespace HRCloud.Web
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IDepartmentsService, DepartmentsService>();
             services.AddTransient<IEmployeesService, EmployeesService>();
+            services.AddTransient<IJobsService, JobsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

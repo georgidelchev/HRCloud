@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HRCloud.Data.Common.Repositories;
 using HRCloud.Data.Models;
 using HRCloud.Services.Data;
+using HRCloud.Services.Data.Interfaces;
 using HRCloud.Web.ViewModels.Settings;
 
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,5 @@
 ﻿using HRCloud.Services.Data;
+using HRCloud.Services.Data.Interfaces;
 using HRCloud.Web.ViewModels.Administration.Dashboard;
 
 using Microsoft.AspNetCore.Mvc;

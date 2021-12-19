@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HRCloud.Services.Data
+namespace HRCloud.Services.Data.Interfaces
 {
     public interface ISettingsService
     {

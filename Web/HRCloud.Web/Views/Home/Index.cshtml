@@ -17,7 +17,7 @@
                 <h5 class="card-title">@department.Name</h5>
                 <p class="card-text">@department.Description</p>
                 @{var employeesText = department.EmployeesCount.ToString() + " " + (department.EmployeesCount > 1 ? "employees" : "employee");}
-                <a href="#" class="btn btn-primary">@employeesText</a>
+                <a asp-controller="Employees" asp-action="All" asp-area="" asp-route-departmentName="@department.Name" class="btn btn-primary">@employeesText</a>
             </div>
             <div class="card-footer text-muted">
                 Created: @department.CreatedOnAsString

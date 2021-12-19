@@ -3,6 +3,7 @@ using System.Linq;
 
 using HRCloud.Data.Common.Repositories;
 using HRCloud.Data.Models;
+using HRCloud.Services.Data.Interfaces;
 using HRCloud.Services.Mapping;
 
 namespace HRCloud.Services.Data

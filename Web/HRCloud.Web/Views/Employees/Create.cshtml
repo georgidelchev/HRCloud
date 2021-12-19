@@ -1,0 +1,222 @@
+﻿@model HRCloud.Web.ViewModels.Employees.CreateEmployeeInputModel
+
+@{
+    var managers = this.Model
+        .Managers
+        .Select(m => new SelectListItem(m.Value, m.Key))
+        .ToList();
+
+    var departments = this.Model
+        .Departments
+        .Select(m => new SelectListItem(m.Value, m.Key.ToString()))
+        .ToList();
+
+    var jobs = this.Model
+        .Jobs
+        .Select(m => new SelectListItem(m.Value, m.Key.ToString()))
+        .ToList();
+}
+
+<style>
+    .image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50px;
+        background-image: url("/img/upload-file-image.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+    .image-preset {
+        width: 150px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+    }
+
+    .image-upload {
+        opacity: 0;
+        z-index: 100;
+        width: 80px;
+        height: 150px;
+        position: absolute;
+    }
+
+        .image-upload:hover, .image-preset:hover, .image:hover {
+            cursor: pointer;
+        }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    @@media(max-width: 980px) {
+        .image {
+            width: 100px;
+        }
+
+        .image-upload {
+            width: 100px;
+        }
+    }
+</style>
+
+<form method="post" class="col-md-6 offset-md-3 text-center" enctype="multipart/form-data">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="FirstName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="SurName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="SurName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="SurName" placeholder="Sur Name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="LastName" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="PhoneNumber" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="PhoneNumber" placeholder="Phone Number" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="ManagerId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="ManagerId" class="input-group-text">
+                    <i class="fas fa-list-ol"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="ManagerId" class="form-control" asp-items="managers">
+                <option selected disabled>Choose Manager</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="DepartmentId" class="input-group-text">
+                    <i class="fas fa-list-ol"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="DepartmentId" class="form-control" asp-items="departments">
+                <option selected disabled>Choose Department</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="JobId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="JobId" class="input-group-text">
+                    <i class="fas fa-list-ol"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="JobId" class="form-control" asp-items="jobs">
+                <option selected disabled>Choose Job</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="Salary" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Salary" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="Salary" type="number" placeholder="Phone Number" class="form-control" />
+        </div>
+    </div>
+
+    <div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="Email" class="input-group-text">
+                    <i class="fas fa-file-signature"></i>
+                </label>
+            </div>
+            <input asp-for="Email" placeholder="Phone Number" class="form-control" />
+        </div>
+    </div>
+
+    <p>Choose a profile picture:</p>
+    <div class="row justify-content-sm-center">
+        <div class="image mb-2" id="preview-picture">
+            <label for="image" class="image-upload"></label>
+            <input type="file" asp-for="Image" id="image" class="image-upload" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+
+</form>
+
+<script>
+    $(document).on('change', ".image-upload", function () {
+        let id = $(this).parent().attr('id');
+        console.log(id);
+        console.log(1);
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+        if (/^image/.test(files[0].type)) {
+            var ReaderObj = new FileReader();
+            ReaderObj.readAsDataURL(files[0]);
+            ReaderObj.onloadend = function () {
+                $("#" + id).css("background-image", "url(" + this.result + ")");
+            }
+        } else {
+            alert("Upload an image");
+        }
+    });
+</script>
