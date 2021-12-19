@@ -4,13 +4,15 @@
     <a asp-controller="Employees" asp-action="Create" asp-route-departmentSource="@this.Model.DepartmentName" asp-area="" class="text-success"><i class="fas fa-plus"></i></a>
 </div>
 
-@foreach (var employee in this.Model.Employees)
-{
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@employee.ImageUrl" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text text-center">Full Name: @employee.FullName</p>
-            <p class="card-text text-center">Email: @employee.Email</p>
+<div class="row">
+    @foreach (var employee in this.Model.Employees)
+    {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="@employee.ImageUrl" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text text-center">Full Name: @employee.FullName</p>
+                <p class="card-text text-center">Email: @employee.Email</p>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>

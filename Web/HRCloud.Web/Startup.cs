@@ -72,6 +72,7 @@ namespace HRCloud.Web
             services.AddTransient<IDepartmentsService, DepartmentsService>();
             services.AddTransient<IEmployeesService, EmployeesService>();
             services.AddTransient<IJobsService, JobsService>();
+            services.AddTransient<IImageProcessingService, ImageProcessingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

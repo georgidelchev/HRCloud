@@ -18,20 +18,25 @@ namespace HRCloud.Services.Data
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IDeletableEntityRepository<ApplicationUser> employeesRepository;
+        private readonly IImageProcessingService imageProcessingService;
 
         public EmployeesService(
             IServiceProvider serviceProvider,
-            IDeletableEntityRepository<ApplicationUser> employeesRepository)
+            IDeletableEntityRepository<ApplicationUser> employeesRepository,
+            IImageProcessingService imageProcessingService)
         {
             this.serviceProvider = serviceProvider;
             this.employeesRepository = employeesRepository;
+            this.imageProcessingService = imageProcessingService;
         }
 
-        public async Task<bool> Create(CreateEmployeeInputModel input)
+        public async Task<bool> Create(CreateEmployeeInputModel input, string webRoot)
         {
-            var userManager = this.serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var user = new ApplicationUser()
+            var userManager = this.serviceProvider
+                .GetRequiredService<UserManager<ApplicationUser>>();
+
+            var user = new ApplicationUser
             {
                 Email = input.Email,
                 CreatedOn = DateTime.UtcNow,
@@ -44,8 +49,10 @@ namespace HRCloud.Services.Data
                 JobId = input.JobId,
                 Salary = input.Salary,
                 PhoneNumber = input.PhoneNumber,
-                ImageUrl = "TODO",
             };
+
+            var imageUrl = $"/img/Employees/{user.Id.Split('-').FirstOrDefault()}_{user.FirstName} {user.Surname} {user.LastName}/";
+            user.ImageUrl = imageUrl + await this.imageProcessingService.SaveImageLocallyAsync(input.Image, webRoot + imageUrl);
 
             await userManager.CreateAsync(user, input.Password);
 
@@ -80,5 +87,12 @@ namespace HRCloud.Services.Data
                 .All()
                 .Select(kvp => new KeyValuePair<string, string>(kvp.Id, $"{kvp.FirstName} {kvp.Surname} {kvp.LastName}"))
                 .ToListAsync();
+
+        public string GetFullNameById(string id)
+            => this.employeesRepository
+                .All()
+                .Where(e => e.Id == id)
+                .Select(e => $"{e.FirstName} {e.Surname} {e.LastName}")
+                .FirstOrDefault();
     }
 }

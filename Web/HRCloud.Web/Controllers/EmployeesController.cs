@@ -3,6 +3,7 @@
 using HRCloud.Services.Data;
 using HRCloud.Services.Data.Interfaces;
 using HRCloud.Web.ViewModels.Employees;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRCloud.Web.Controllers
@@ -12,15 +13,18 @@ namespace HRCloud.Web.Controllers
         private readonly IEmployeesService employeesService;
         private readonly IDepartmentsService departmentsService;
         private readonly IJobsService jobsService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public EmployeesController(
             IEmployeesService employeesService,
             IDepartmentsService departmentsService,
-            IJobsService jobsService)
+            IJobsService jobsService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.employeesService = employeesService;
             this.departmentsService = departmentsService;
             this.jobsService = jobsService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -50,7 +54,7 @@ namespace HRCloud.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateEmployeeInputModel input)
         {
-            await this.employeesService.Create(input);
+            await this.employeesService.Create(input, this.webHostEnvironment.WebRootPath);
             var redirectUrl = $"/{this.ControllerContext.ActionDescriptor.ControllerName}/{nameof(this.All)}?departmentName={this.departmentsService.GetNameById(input.DepartmentId)}";
 
             return this.Redirect(redirectUrl);

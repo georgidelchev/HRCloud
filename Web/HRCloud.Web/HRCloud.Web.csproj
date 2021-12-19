@@ -41,4 +41,8 @@
     <ProjectReference Include="..\HRCloud.Web.Infrastructure\HRCloud.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\HRCloud.Web.ViewModels\HRCloud.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Employees\" />
+  </ItemGroup>
 </Project>
