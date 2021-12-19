@@ -40,7 +40,7 @@ namespace HRCloud.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string departmentSource)
         {
-            var viewModel = new CreateEmployeeInputModel()
+            var viewModel = new CreateEmployeeInputModel
             {
                 Mentors = await this.employeesService.GetAllAsKvp(departmentSource),
                 Jobs = await this.jobsService.GetAllAsKvp(),
@@ -54,7 +54,7 @@ namespace HRCloud.Web.Controllers
         {
             if (!this.ModelState.IsValid || input.Image == null)
             {
-                var viewModel = new CreateEmployeeInputModel()
+                var viewModel = new CreateEmployeeInputModel
                 {
                     Mentors = await this.employeesService.GetAllAsKvp(input.DepartmentName),
                     Jobs = await this.jobsService.GetAllAsKvp(),
