@@ -71,7 +71,7 @@
                     <i class="fas fa-file-signature"></i>
                 </label>
             </div>
-            <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+            <input asp-for="FirstName" placeholder="First name" class="form-control" />
         </div>
     </div>
 
@@ -84,7 +84,7 @@
                     <i class="fas fa-file-signature"></i>
                 </label>
             </div>
-            <input asp-for="SurName" placeholder="Sur Name" class="form-control" />
+            <input asp-for="SurName" placeholder="Sur name" class="form-control" />
         </div>
     </div>
 
@@ -97,7 +97,7 @@
                     <i class="fas fa-file-signature"></i>
                 </label>
             </div>
-            <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+            <input asp-for="LastName" placeholder="Last name" class="form-control" />
         </div>
     </div>
 
@@ -107,25 +107,10 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="PhoneNumber" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-phone"></i>
                 </label>
             </div>
-            <input asp-for="PhoneNumber" placeholder="Phone Number" class="form-control" />
-        </div>
-    </div>
-
-    <div>
-        <span asp-validation-for="MentorId" class="text-danger"></span>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label asp-for="MentorId" class="input-group-text">
-                    <i class="fas fa-list-ol"></i>
-                </label>
-            </div>
-            <select id="category-selector" asp-for="MentorId" class="form-control" asp-items="managers">
-                <option selected disabled>Choose Manager</option>
-            </select>
+            <input asp-for="PhoneNumber" placeholder="Phone number" class="form-control" />
         </div>
     </div>
 
@@ -137,6 +122,21 @@
                 </label>
             </div>
             <input asp-for="DepartmentName" readonly="readonly" class="form-control" />
+        </div>
+    </div>
+    
+    <div>
+        <span asp-validation-for="MentorId" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label asp-for="MentorId" class="input-group-text">
+                    <i class="fas fa-hands-helping"></i>
+                </label>
+            </div>
+            <select id="category-selector" asp-for="MentorId" class="form-control" asp-items="managers">
+                <option selected disabled>Choose Mentor</option>
+            </select>
         </div>
     </div>
 
@@ -161,10 +161,10 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="Salary" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    &nbsp;<i class="fas fa-dollar-sign"></i>&nbsp;
                 </label>
             </div>
-            <input asp-for="Salary" type="number" placeholder="Phone Number" class="form-control" />
+            <input asp-for="Salary" type="number" placeholder="Salary" class="form-control" />
         </div>
     </div>
 
@@ -174,10 +174,10 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label asp-for="Email" class="input-group-text">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-envelope"></i>
                 </label>
             </div>
-            <input asp-for="Email" placeholder="Phone Number" class="form-control" />
+            <input asp-for="Email" placeholder="E-mail" class="form-control" />
         </div>
     </div>
 

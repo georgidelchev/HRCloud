@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 
-using HRCloud.Services.Data;
 using HRCloud.Services.Data.Interfaces;
 using HRCloud.Web.ViewModels.Employees;
 using Microsoft.AspNetCore.Hosting;
@@ -44,8 +43,8 @@ namespace HRCloud.Web.Controllers
             var viewModel = new CreateEmployeeInputModel()
             {
                 Mentors = await this.employeesService.GetAllAsKvp(departmentSource),
-                DepartmentName = departmentSource,
                 Jobs = await this.jobsService.GetAllAsKvp(),
+                DepartmentName = departmentSource,
             };
             return this.View(viewModel);
         }
@@ -53,11 +52,30 @@ namespace HRCloud.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateEmployeeInputModel input)
         {
+            if (!this.ModelState.IsValid || input.Image == null)
+            {
+                var viewModel = new CreateEmployeeInputModel()
+                {
+                    Mentors = await this.employeesService.GetAllAsKvp(input.DepartmentName),
+                    Jobs = await this.jobsService.GetAllAsKvp(),
+                    DepartmentName = input.DepartmentName,
+                };
+                return this.View(viewModel);
+            }
+
             await this.employeesService.Create(input, this.webHostEnvironment.WebRootPath);
 
             var redirectUrl = $"/{this.ControllerContext.ActionDescriptor.ControllerName}/{nameof(this.All)}?departmentName={input.DepartmentName}";
 
             return this.Redirect(redirectUrl);
+        }
+
+        [HttpGet]
+        public IActionResult DoesEmailExists(string email)
+        {
+            var result = this.employeesService
+                .IsEmailExists(email);
+            return this.Json(!result);
         }
     }
 }

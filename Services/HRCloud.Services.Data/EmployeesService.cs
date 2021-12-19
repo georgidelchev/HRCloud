@@ -104,6 +104,11 @@ namespace HRCloud.Services.Data
                 .Select(e => $"{e.FirstName} {e.Surname} {e.LastName}")
                 .FirstOrDefault();
 
+        public bool IsEmailExists(string email)
+            => this.employeesRepository
+                .AllWithDeleted()
+                .Any(e => e.Email == email);
+
         private async Task SetMentorAsync(string id)
         {
             var employee = this.employeesRepository
