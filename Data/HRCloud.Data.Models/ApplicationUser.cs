@@ -40,8 +40,8 @@ namespace HRCloud.Data.Models
 
         public virtual Job Job { get; set; }
 
-        [Column("ManagerId")]
-        public int? ApplicationUserId { get; set; }
+        [Column("MentorId")]
+        public string ApplicationUserId { get; set; }
 
         [Required]
         public int DepartmentId { get; set; }
@@ -57,6 +57,9 @@ namespace HRCloud.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        [Required]
+        public bool IsMentor { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
             = new HashSet<IdentityUserRole<string>>();

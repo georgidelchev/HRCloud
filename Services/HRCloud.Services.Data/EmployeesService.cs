@@ -49,12 +49,18 @@ namespace HRCloud.Services.Data
                 JobId = input.JobId,
                 Salary = input.Salary,
                 PhoneNumber = input.PhoneNumber,
+                ApplicationUserId = input.MentorId,
             };
 
             var imageUrl = $"/img/Employees/{user.Id.Split('-').FirstOrDefault()}_{user.FirstName} {user.Surname} {user.LastName}/";
             user.ImageUrl = imageUrl + await this.imageProcessingService.SaveImageLocallyAsync(input.Image, webRoot + imageUrl);
 
             await userManager.CreateAsync(user, input.Password);
+
+            if (!string.IsNullOrEmpty(input.MentorId))
+            {
+                await this.SetMentorAsync(input.MentorId);
+            }
 
             return true;
         }
@@ -82,9 +88,10 @@ namespace HRCloud.Services.Data
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp()
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp(string departmentName)
             => await this.employeesRepository
                 .All()
+                .Where(e => e.ApplicationUserId == null && e.IsMentor == false && e.Department.Name == departmentName)
                 .Select(kvp => new KeyValuePair<string, string>(kvp.Id, $"{kvp.FirstName} {kvp.Surname} {kvp.LastName}"))
                 .ToListAsync();
 
@@ -94,5 +101,17 @@ namespace HRCloud.Services.Data
                 .Where(e => e.Id == id)
                 .Select(e => $"{e.FirstName} {e.Surname} {e.LastName}")
                 .FirstOrDefault();
+
+        private async Task SetMentorAsync(string id)
+        {
+            var employee = this.employeesRepository
+                .All()
+                .FirstOrDefault(e => e.Id == id);
+
+            employee.IsMentor = true;
+
+            this.employeesRepository.Update(employee);
+            await this.employeesRepository.SaveChangesAsync();
+        }
     }
 }

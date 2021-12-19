@@ -13,7 +13,7 @@ namespace HRCloud.Services.Data.Interfaces
 
         Task<IEnumerable<T>> GetAllByDepartmentName<T>(string departmentName);
 
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp(string departmentName);
 
         string GetFullNameById(string id);
     }

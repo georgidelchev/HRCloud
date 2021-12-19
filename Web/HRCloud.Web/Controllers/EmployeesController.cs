@@ -43,7 +43,7 @@ namespace HRCloud.Web.Controllers
         {
             var viewModel = new CreateEmployeeInputModel()
             {
-                Managers = await this.employeesService.GetAllAsKvp(),
+                Mentors = await this.employeesService.GetAllAsKvp(departmentSource),
                 Departments = await this.departmentsService.GetAllAsKvp(),
                 Jobs = await this.jobsService.GetAllAsKvp(),
                 DepartmentId = this.departmentsService.GetIdByName(departmentSource),

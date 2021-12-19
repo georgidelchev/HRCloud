@@ -35,8 +35,8 @@ namespace HRCloud.Web.ViewModels.Employees
 
         public int JobId { get; set; }
 
-        public IEnumerable<KeyValuePair<string, string>> Managers { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> Mentors { get; set; }
 
-        public string ManagerId { get; set; }
+        public string MentorId { get; set; }
     }
 }

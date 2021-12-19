@@ -35,7 +35,7 @@ namespace HRCloud.Web.ViewModels.Employees
 
         public string JobName { get; set; }
 
-        public string ManagerName { get; set; }
+        public string MentorName { get; set; }
 
         public string Salary { get; set; }
     }
