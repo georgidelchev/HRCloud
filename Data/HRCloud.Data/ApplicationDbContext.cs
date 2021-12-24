@@ -25,8 +25,6 @@ namespace HRCloud.Data
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<Benefit> Benefits { get; set; }
 
         public DbSet<Department> Departments { get; set; }

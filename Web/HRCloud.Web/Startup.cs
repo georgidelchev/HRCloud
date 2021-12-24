@@ -68,7 +68,6 @@ namespace HRCloud.Web
 
             // Application services
             services.AddTransient<IJobsService, JobsService>();
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEmployeesService, EmployeesService>();
             services.AddTransient<IDepartmentsService, DepartmentsService>();
             services.AddTransient<IFileProcessingService, FileProcessingService>();
