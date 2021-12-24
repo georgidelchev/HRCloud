@@ -36,12 +36,15 @@ namespace HRCloud.Web.ViewModels.Employees
 
         [Required]
         [Range(0.01, 100000, ErrorMessage = "Salary should be bigger than 0 and less than 100000.")]
+        [Remote(
+            action: "IsSalaryValid",
+            controller: "Employees",
+            HttpMethod = "GET",
+            ErrorMessage = "Salary is out of given range.",
+            AdditionalFields = "JobId")]
         public decimal Salary { get; set; }
 
         [Required(ErrorMessage = "Image field is required.")]
-        [FileExtensions(
-            Extensions = "jpg,jpeg,png,gif",
-            ErrorMessage = "Please upload valid image.")]
         public IFormFile Image { get; set; }
 
         [FileExtensions(

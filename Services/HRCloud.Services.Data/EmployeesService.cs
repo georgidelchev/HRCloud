@@ -97,13 +97,6 @@ namespace HRCloud.Services.Data
                 .Select(kvp => new KeyValuePair<string, string>(kvp.Id, $"{kvp.FirstName} {kvp.Surname} {kvp.LastName}"))
                 .ToListAsync();
 
-        public string GetFullNameById(string id)
-            => this.employeesRepository
-                .All()
-                .Where(e => e.Id == id)
-                .Select(e => $"{e.FirstName} {e.Surname} {e.LastName}")
-                .FirstOrDefault();
-
         public bool IsEmailExists(string email)
             => this.employeesRepository
                 .AllWithDeleted()

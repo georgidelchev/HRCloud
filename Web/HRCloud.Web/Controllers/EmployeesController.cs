@@ -70,12 +70,21 @@ namespace HRCloud.Web.Controllers
             return this.Redirect(redirectUrl);
         }
 
+        // Used in Remote Validation
         [HttpGet]
         public IActionResult DoesEmailExists(string email)
         {
             var result = this.employeesService
                 .IsEmailExists(email);
             return this.Json(!result);
+        }
+
+        [HttpGet]
+        public IActionResult IsSalaryValid(int jobId, decimal salary)
+        {
+            var result = this.jobsService
+                .IsJobSalaryValid(jobId, salary);
+            return this.Json(result);
         }
     }
 }

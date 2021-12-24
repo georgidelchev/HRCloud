@@ -15,8 +15,6 @@ namespace HRCloud.Services.Data.Interfaces
 
         Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp(string departmentName);
 
-        string GetFullNameById(string id);
-
         bool IsEmailExists(string email);
     }
 }

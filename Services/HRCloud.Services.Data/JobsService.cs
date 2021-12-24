@@ -19,6 +19,15 @@ namespace HRCloud.Services.Data
             this.jobsRepository = jobsRepository;
         }
 
+        public bool IsJobSalaryValid(int jobId, decimal salary)
+        {
+            var job = this.jobsRepository
+                .All()
+                .FirstOrDefault(j => j.Id == jobId);
+
+            return salary >= job.MinSalary && salary <= job.MaxSalary;
+        }
+
         public async Task<IEnumerable<KeyValuePair<int, string>>> GetAllAsKvp()
             => await this.jobsRepository
                 .All()
