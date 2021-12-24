@@ -11,7 +11,11 @@ namespace HRCloud.Services.Data.Interfaces
 
         Task<bool> DeleteAsync(string employeeId);
 
+        Task EditAsync(EditEmployeeInputModel input, string employeeId);
+
         Task<T> GetDetailsAsync<T>(string employeeId);
+
+        Task<T> GetByIdAsync<T>(string employeeId);
 
         Task<IEnumerable<T>> GetAllAsync<T>(string departmentName);
 

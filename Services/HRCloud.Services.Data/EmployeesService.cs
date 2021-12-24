@@ -34,9 +34,9 @@ namespace HRCloud.Services.Data
         {
             this.emailSender = emailSender;
             this.serviceProvider = serviceProvider;
+            this.departmentsService = departmentsService;
             this.employeesRepository = employeesRepository;
             this.fileProcessingService = fileProcessingService;
-            this.departmentsService = departmentsService;
         }
 
         public async Task<bool> CreateAsync(CreateEmployeeInputModel input, string webRoot)
@@ -90,7 +90,30 @@ namespace HRCloud.Services.Data
             return true;
         }
 
+        public async Task EditAsync(EditEmployeeInputModel input, string employeeId)
+        {
+            var employee = await this.employeesRepository
+                .All()
+                .FirstOrDefaultAsync(e => e.Id == employeeId);
+
+            employee.FirstName = input.FirstName;
+            employee.Surname = input.SurName;
+            employee.LastName = input.LastName;
+            employee.PhoneNumber = input.PhoneNumber;
+            employee.Salary = input.Salary;
+
+            this.employeesRepository.Update(employee);
+            await this.employeesRepository.SaveChangesAsync();
+        }
+
         public async Task<T> GetDetailsAsync<T>(string employeeId)
+            => await this.employeesRepository
+                .All()
+                .Where(e => e.Id == employeeId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public async Task<T> GetByIdAsync<T>(string employeeId)
             => await this.employeesRepository
                 .All()
                 .Where(e => e.Id == employeeId)

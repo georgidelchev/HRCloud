@@ -9,20 +9,17 @@ namespace HRCloud.Web.Controllers
 {
     public class EmployeesController : BaseController
     {
-        private readonly IEmployeesService employeesService;
-        private readonly IDepartmentsService departmentsService;
         private readonly IJobsService jobsService;
+        private readonly IEmployeesService employeesService;
         private readonly IWebHostEnvironment webHostEnvironment;
 
         public EmployeesController(
-            IEmployeesService employeesService,
-            IDepartmentsService departmentsService,
             IJobsService jobsService,
+            IEmployeesService employeesService,
             IWebHostEnvironment webHostEnvironment)
         {
-            this.employeesService = employeesService;
-            this.departmentsService = departmentsService;
             this.jobsService = jobsService;
+            this.employeesService = employeesService;
             this.webHostEnvironment = webHostEnvironment;
         }
 
@@ -94,6 +91,32 @@ namespace HRCloud.Web.Controllers
 
             await this.employeesService.DeleteAsync(id);
 
+            return this.Redirect("/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (this.employeesService.IsEmployeeExistById(id))
+            {
+                // TODO: Add validation
+            }
+
+            var viewModel = await this.employeesService
+                .GetByIdAsync<EditEmployeeInputModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditEmployeeInputModel input, string id)
+        {
+            if (this.employeesService.IsEmployeeExistById(id))
+            {
+                // TODO: Add validation
+            }
+
+            await this.employeesService.EditAsync(input, id);
             return this.Redirect("/");
         }
 
