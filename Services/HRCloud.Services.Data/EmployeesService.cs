@@ -39,7 +39,7 @@ namespace HRCloud.Services.Data
             this.departmentsService = departmentsService;
         }
 
-        public async Task<bool> Create(CreateEmployeeInputModel input, string webRoot)
+        public async Task<bool> CreateAsync(CreateEmployeeInputModel input, string webRoot)
         {
             var userManager = this.serviceProvider
                 .GetRequiredService<UserManager<ApplicationUser>>();
@@ -71,12 +71,33 @@ namespace HRCloud.Services.Data
                 await this.SetMentorAsync(input.MentorId);
             }
 
-            //await this.SendMailWithWelcomeCardAttachmentToAll(input.WelcomeCard);
+            // await this.SendMailWithWelcomeCardAttachmentToAll(input.WelcomeCard);
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(string employeeId)
+        {
+            var employee = await this.employeesRepository
+                .All()
+                .FirstOrDefaultAsync(e => e.Id == employeeId);
+
+            employee.IsDeleted = true;
+            employee.DeletedOn = DateTime.UtcNow;
+
+            this.employeesRepository.Update(employee);
+            await this.employeesRepository.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(string departmentName)
+        public async Task<T> GetDetailsAsync<T>(string employeeId)
+            => await this.employeesRepository
+                .All()
+                .Where(e => e.Id == employeeId)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string departmentName)
         {
             var allEmployees = this.employeesRepository
                 .All();
@@ -92,24 +113,29 @@ namespace HRCloud.Services.Data
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllByDepartmentName<T>(string departmentName)
+        public async Task<IEnumerable<T>> GetAllByDepartmentNameAsync<T>(string departmentName)
             => await this.employeesRepository
                 .All()
                 .Where(e => e.Department.Name == departmentName)
                 .To<T>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp(string departmentName)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvpAsync(string departmentName)
             => await this.employeesRepository
                 .All()
                 .Where(e => e.ApplicationUserId == null && e.IsMentor == false && e.Department.Name == departmentName)
                 .Select(kvp => new KeyValuePair<string, string>(kvp.Id, $"{kvp.FirstName} {kvp.Surname} {kvp.LastName}"))
                 .ToListAsync();
 
-        public bool IsEmailExists(string email)
+        public bool IsEmailExist(string email)
             => this.employeesRepository
                 .AllWithDeleted()
                 .Any(e => e.Email == email);
+
+        public bool IsEmployeeExistById(string employeeId)
+            => this.employeesRepository
+                .All()
+                .Any(e => e.Id == employeeId);
 
         private async Task SetMentorAsync(string id)
         {

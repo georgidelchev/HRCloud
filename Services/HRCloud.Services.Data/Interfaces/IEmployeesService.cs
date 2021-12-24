@@ -7,14 +7,20 @@ namespace HRCloud.Services.Data.Interfaces
 {
     public interface IEmployeesService
     {
-        Task<bool> Create(CreateEmployeeInputModel input, string webRoot);
+        Task<bool> CreateAsync(CreateEmployeeInputModel input, string webRoot);
 
-        Task<IEnumerable<T>> GetAll<T>(string departmentName);
+        Task<bool> DeleteAsync(string employeeId);
 
-        Task<IEnumerable<T>> GetAllByDepartmentName<T>(string departmentName);
+        Task<T> GetDetailsAsync<T>(string employeeId);
 
-        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvp(string departmentName);
+        Task<IEnumerable<T>> GetAllAsync<T>(string departmentName);
 
-        bool IsEmailExists(string email);
+        Task<IEnumerable<T>> GetAllByDepartmentNameAsync<T>(string departmentName);
+
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllAsKvpAsync(string departmentName);
+
+        bool IsEmailExist(string email);
+
+        bool IsEmployeeExistById(string employeeId);
     }
 }

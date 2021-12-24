@@ -66,7 +66,6 @@ namespace HRCloud.Services.Data
             await using var fileStream = new FileStream(path, FileMode.Create);
             await welcomeCard.CopyToAsync(fileStream);
 
-
             return fileName + ".pdf";
         }
     }

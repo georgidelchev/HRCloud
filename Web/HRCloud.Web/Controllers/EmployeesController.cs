@@ -31,7 +31,7 @@ namespace HRCloud.Web.Controllers
         {
             var viewModel = new ListEmployeesViewModel
             {
-                Employees = await this.employeesService.GetAll<EmployeeViewModel>(departmentName),
+                Employees = await this.employeesService.GetAllAsync<EmployeeViewModel>(departmentName),
                 DepartmentName = departmentName,
             };
             return this.View(viewModel);
@@ -42,7 +42,7 @@ namespace HRCloud.Web.Controllers
         {
             var viewModel = new CreateEmployeeInputModel
             {
-                Mentors = await this.employeesService.GetAllAsKvp(departmentSource),
+                Mentors = await this.employeesService.GetAllAsKvpAsync(departmentSource),
                 Jobs = await this.jobsService.GetAllAsKvp(),
                 DepartmentName = departmentSource,
             };
@@ -56,18 +56,45 @@ namespace HRCloud.Web.Controllers
             {
                 var viewModel = new CreateEmployeeInputModel
                 {
-                    Mentors = await this.employeesService.GetAllAsKvp(input.DepartmentName),
+                    Mentors = await this.employeesService.GetAllAsKvpAsync(input.DepartmentName),
                     Jobs = await this.jobsService.GetAllAsKvp(),
                     DepartmentName = input.DepartmentName,
                 };
                 return this.View(viewModel);
             }
 
-            await this.employeesService.Create(input, this.webHostEnvironment.WebRootPath);
+            await this.employeesService.CreateAsync(input, this.webHostEnvironment.WebRootPath);
 
             var redirectUrl = $"/{this.ControllerContext.ActionDescriptor.ControllerName}/{nameof(this.All)}?departmentName={input.DepartmentName}";
 
             return this.Redirect(redirectUrl);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (!this.employeesService.IsEmployeeExistById(id))
+            {
+                // TODO: Add error!
+            }
+
+            var viewModel = await this.employeesService
+                .GetDetailsAsync<EmployeeDetailsViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (this.employeesService.IsEmployeeExistById(id))
+            {
+                // TODO: Add validation
+            }
+
+            await this.employeesService.DeleteAsync(id);
+
+            return this.Redirect("/");
         }
 
         // Used in Remote Validation
@@ -75,7 +102,7 @@ namespace HRCloud.Web.Controllers
         public IActionResult DoesEmailExists(string email)
         {
             var result = this.employeesService
-                .IsEmailExists(email);
+                .IsEmailExist(email);
             return this.Json(!result);
         }
 

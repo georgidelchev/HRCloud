@@ -7,11 +7,12 @@
 <div class="row">
     @foreach (var employee in this.Model.Employees)
     {
-        <div class="card" style="width: 18rem;">
+        <div class="card text-center" style="width: 18rem;">
             <img class="card-img-top" src="@employee.ImageUrl" alt="Card image cap">
             <div class="card-body">
                 <p class="card-text text-center">Full Name: @employee.FullName</p>
                 <p class="card-text text-center">Email: @employee.Email</p>
+                <a asp-controller="Employees" asp-action="Details" asp-route-id="@employee.Id">Details</a>
             </div>
         </div>
     }
