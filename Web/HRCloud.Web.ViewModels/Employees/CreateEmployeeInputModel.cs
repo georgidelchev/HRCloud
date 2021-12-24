@@ -47,9 +47,7 @@ namespace HRCloud.Web.ViewModels.Employees
         [Required(ErrorMessage = "Image field is required.")]
         public IFormFile Image { get; set; }
 
-        [FileExtensions(
-            Extensions = ".pdf",
-            ErrorMessage = "Please upload pdf file.")]
+        [Required(ErrorMessage = "Welcome card field is required.")]
         public IFormFile WelcomeCard { get; set; }
 
         [Required(ErrorMessage = "Department name field is required.")]

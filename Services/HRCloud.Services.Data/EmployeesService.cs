@@ -18,18 +18,18 @@ namespace HRCloud.Services.Data
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IDeletableEntityRepository<ApplicationUser> employeesRepository;
-        private readonly IImageProcessingService imageProcessingService;
+        private readonly IFileProcessingService _fileProcessingService;
         private readonly IDepartmentsService departmentsService;
 
         public EmployeesService(
             IServiceProvider serviceProvider,
             IDeletableEntityRepository<ApplicationUser> employeesRepository,
-            IImageProcessingService imageProcessingService,
+            IFileProcessingService fileProcessingService,
             IDepartmentsService departmentsService)
         {
             this.serviceProvider = serviceProvider;
             this.employeesRepository = employeesRepository;
-            this.imageProcessingService = imageProcessingService;
+            this._fileProcessingService = fileProcessingService;
             this.departmentsService = departmentsService;
         }
 
@@ -54,8 +54,9 @@ namespace HRCloud.Services.Data
                 ApplicationUserId = input.MentorId,
             };
 
-            var imageUrl = $"/img/Employees/{user.Id.Split('-').FirstOrDefault()}_{user.FirstName} {user.Surname} {user.LastName}/";
-            user.ImageUrl = imageUrl + await this.imageProcessingService.SaveImageLocallyAsync(input.Image, webRoot + imageUrl);
+            var employeeFolderPath = $"/img/Employees/{user.Id.Split('-').FirstOrDefault()}_{user.FirstName} {user.Surname} {user.LastName}/";
+            user.ImageUrl = employeeFolderPath + await this._fileProcessingService.SaveImageLocallyAsync(input.Image, webRoot + employeeFolderPath);
+            user.WelcomeCardUrl = employeeFolderPath + await this._fileProcessingService.SaveWelcomeCardAsync(input.WelcomeCard, webRoot + employeeFolderPath,$"{user.FirstName}{user.Surname}{user.LastName}");
 
             await userManager.CreateAsync(user, input.Password);
 

@@ -10,7 +10,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace HRCloud.Services.Data
 {
-    public class ImageProcessingService : IImageProcessingService
+    public class FileProcessingService : IFileProcessingService
     {
         public async Task<string> SaveImageLocallyAsync(IFormFile image, string directory, int width = 200, int height = 120)
         {
@@ -45,7 +45,6 @@ namespace HRCloud.Services.Data
                 }
 
                 var path = directory + fileName + ".png";
-                var a = fileName + ".png";
                 File.Delete(path);
                 File.Move(tempPath, path);
 
@@ -53,6 +52,22 @@ namespace HRCloud.Services.Data
             }
 
             return filePath;
+        }
+
+        public async Task<string> SaveWelcomeCardAsync(IFormFile welcomeCard, string directory, string fileName)
+        {
+            Directory.CreateDirectory(directory);
+
+            await using var ms = new MemoryStream();
+
+            await welcomeCard.CopyToAsync(ms);
+
+            var path = directory + fileName + ".pdf";
+            await using var fileStream = new FileStream(path, FileMode.Create);
+            await welcomeCard.CopyToAsync(fileStream);
+
+
+            return fileName + ".pdf";
         }
     }
 }

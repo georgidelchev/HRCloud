@@ -43,10 +43,6 @@
             cursor: pointer;
         }
 
-    input[type='file'] {
-        display: none;
-    }
-
     @@media(max-width: 980px) {
         .image {
             width: 100px;
@@ -124,7 +120,7 @@
             <input asp-for="DepartmentName" readonly="readonly" class="form-control" />
         </div>
     </div>
-    
+
     <div>
         <span asp-validation-for="MentorId" class="text-danger"></span>
 
@@ -181,6 +177,7 @@
         </div>
     </div>
 
+    <span asp-validation-for="Image" class="text-danger"></span>
     <p>Choose a profile picture:</p>
     <div class="row justify-content-sm-center">
         <div class="image mb-2" id="preview-picture">
@@ -189,15 +186,16 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-
+    <span asp-validation-for="WelcomeCard" class="text-danger"></span><br />
+    <label for="welcomeCard">Upload welcome card.</label><br />
+    <input type="file" asp-for="WelcomeCard" id="welcomeCard" class="pb-3" />
+    <br />
+    <button type="submit" class="btn btn-primary btn-sm ">Submit</button>
 </form>
 
 <script>
     $(document).on('change', ".image-upload", function () {
         let id = $(this).parent().attr('id');
-        console.log(id);
-        console.log(1);
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return;
         if (/^image/.test(files[0].type)) {

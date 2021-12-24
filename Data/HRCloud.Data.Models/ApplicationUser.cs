@@ -30,6 +30,9 @@ namespace HRCloud.Data.Models
         public string ImageUrl { get; set; }
 
         [Required]
+        public string WelcomeCardUrl { get; set; }
+
+        [Required]
         public DateTime HireDate { get; set; }
 
         [Required]
