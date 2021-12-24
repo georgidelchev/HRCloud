@@ -67,12 +67,12 @@ namespace HRCloud.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IDepartmentsService, DepartmentsService>();
-            services.AddTransient<IEmployeesService, EmployeesService>();
             services.AddTransient<IJobsService, JobsService>();
+            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IEmployeesService, EmployeesService>();
+            services.AddTransient<IDepartmentsService, DepartmentsService>();
             services.AddTransient<IFileProcessingService, FileProcessingService>();
+            services.AddTransient<IEmailSender>(sp => new SendGridEmailSender(this.configuration["Sendgrid"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

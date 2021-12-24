@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Data\HRCloud.Data.Models\HRCloud.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\HRCloud.Web.ViewModels\HRCloud.Web.ViewModels.csproj" />
     <ProjectReference Include="..\HRCloud.Services.Mapping\HRCloud.Services.Mapping.csproj" />
+    <ProjectReference Include="..\HRCloud.Services.Messaging\HRCloud.Services.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

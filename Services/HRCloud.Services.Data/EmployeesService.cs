@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,9 @@ using HRCloud.Data.Common.Repositories;
 using HRCloud.Data.Models;
 using HRCloud.Services.Data.Interfaces;
 using HRCloud.Services.Mapping;
+using HRCloud.Services.Messaging;
 using HRCloud.Web.ViewModels.Employees;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,20 +19,23 @@ namespace HRCloud.Services.Data
 {
     public class EmployeesService : IEmployeesService
     {
+        private readonly IEmailSender emailSender;
         private readonly IServiceProvider serviceProvider;
-        private readonly IDeletableEntityRepository<ApplicationUser> employeesRepository;
-        private readonly IFileProcessingService _fileProcessingService;
         private readonly IDepartmentsService departmentsService;
+        private readonly IFileProcessingService fileProcessingService;
+        private readonly IDeletableEntityRepository<ApplicationUser> employeesRepository;
 
         public EmployeesService(
+            IEmailSender emailSender,
             IServiceProvider serviceProvider,
-            IDeletableEntityRepository<ApplicationUser> employeesRepository,
+            IDepartmentsService departmentsService,
             IFileProcessingService fileProcessingService,
-            IDepartmentsService departmentsService)
+            IDeletableEntityRepository<ApplicationUser> employeesRepository)
         {
+            this.emailSender = emailSender;
             this.serviceProvider = serviceProvider;
             this.employeesRepository = employeesRepository;
-            this._fileProcessingService = fileProcessingService;
+            this.fileProcessingService = fileProcessingService;
             this.departmentsService = departmentsService;
         }
 
@@ -55,8 +61,8 @@ namespace HRCloud.Services.Data
             };
 
             var employeeFolderPath = $"/img/Employees/{user.Id.Split('-').FirstOrDefault()}_{user.FirstName} {user.Surname} {user.LastName}/";
-            user.ImageUrl = employeeFolderPath + await this._fileProcessingService.SaveImageLocallyAsync(input.Image, webRoot + employeeFolderPath);
-            user.WelcomeCardUrl = employeeFolderPath + await this._fileProcessingService.SaveWelcomeCardAsync(input.WelcomeCard, webRoot + employeeFolderPath,$"{user.FirstName}{user.Surname}{user.LastName}");
+            user.ImageUrl = employeeFolderPath + await this.fileProcessingService.SaveImageLocallyAsync(input.Image, webRoot + employeeFolderPath);
+            user.WelcomeCardUrl = employeeFolderPath + await this.fileProcessingService.SaveWelcomeCardAsync(input.WelcomeCard, webRoot + employeeFolderPath, $"{user.FirstName}{user.Surname}{user.LastName}");
 
             await userManager.CreateAsync(user, input.Password);
 
@@ -64,6 +70,8 @@ namespace HRCloud.Services.Data
             {
                 await this.SetMentorAsync(input.MentorId);
             }
+
+            //await this.SendMailWithWelcomeCardAttachmentToAll(input.WelcomeCard);
 
             return true;
         }
@@ -113,6 +121,34 @@ namespace HRCloud.Services.Data
 
             this.employeesRepository.Update(employee);
             await this.employeesRepository.SaveChangesAsync();
+        }
+
+        private async Task SendMailWithWelcomeCardAttachmentToAll(IFormFile welcomeCard)
+        {
+            await using var ms = new MemoryStream();
+
+            await welcomeCard.CopyToAsync(ms);
+            var welcomeCardBytes = ms.ToArray();
+
+            var attachments = new List<EmailAttachment>
+            {
+                new()
+                {
+                    Content = welcomeCardBytes,
+                    FileName = welcomeCard.FileName,
+                },
+            };
+
+            foreach (var employee in this.employeesRepository.All())
+            {
+                await this.emailSender.SendEmailAsync(
+                    from: "allyouneedplatform@gmail.com",
+                    fromName: "HRCloud",
+                    to: employee.Email,
+                    subject: $"New Teammate - {employee.FirstName} {employee.Surname} {employee.LastName}",
+                    htmlContent: "Welcome ;).",
+                    attachments: attachments);
+            }
         }
     }
 }
