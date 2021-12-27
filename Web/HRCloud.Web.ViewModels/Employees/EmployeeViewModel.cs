@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HRCloud.Data.Models;
+﻿using HRCloud.Data.Models;
 using HRCloud.Services.Mapping;
 
 namespace HRCloud.Web.ViewModels.Employees

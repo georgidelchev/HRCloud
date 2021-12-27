@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
-
-using HRCloud.Services.Data;
 using HRCloud.Services.Data.Interfaces;
 using HRCloud.Web.ViewModels;
 using HRCloud.Web.ViewModels.Departments;
