@@ -36,6 +36,7 @@ namespace HRCloud.Data.Seeding
                 Salary = dbContext.Jobs.FirstOrDefault(j => j.Name == PositionsConstants.HumanResourceName).MinSalary,
                 PhoneNumber = "0123456789",
                 ImageUrl = "http://simpleicon.com/wp-content/uploads/account.png",
+                WelcomeCardUrl = string.Empty,
             };
 
             await userManager.CreateAsync(user, "123456");

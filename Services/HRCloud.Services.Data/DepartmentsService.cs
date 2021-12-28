@@ -39,10 +39,9 @@ namespace HRCloud.Services.Data
                 .FirstOrDefault(d => d.Name == name)
                 .Id;
 
-        public string GetNameById(int id)
+        public bool IsDepartmentExist(string departmentName)
             => this.departmentsRepository
                 .All()
-                .FirstOrDefault(d => d.Id == id)
-                .Name;
+                .Any(d => d.Name == departmentName);
     }
 }

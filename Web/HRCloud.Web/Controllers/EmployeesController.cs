@@ -12,37 +12,54 @@ namespace HRCloud.Web.Controllers
         private readonly IJobsService jobsService;
         private readonly IEmployeesService employeesService;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IDepartmentsService departmentsService;
 
         public EmployeesController(
             IJobsService jobsService,
             IEmployeesService employeesService,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IDepartmentsService departmentsService)
         {
             this.jobsService = jobsService;
             this.employeesService = employeesService;
             this.webHostEnvironment = webHostEnvironment;
+            this.departmentsService = departmentsService;
         }
 
         [HttpGet]
         public async Task<IActionResult> All(string departmentName)
         {
+            if (!this.departmentsService.IsDepartmentExist(departmentName))
+            {
+                this.TempData["Error"] = "Department is invalid!";
+                return this.Redirect("/");
+            }
+
             var viewModel = new ListEmployeesViewModel
             {
                 Employees = await this.employeesService.GetAllAsync<EmployeeViewModel>(departmentName),
                 DepartmentName = departmentName,
             };
+
             return this.View(viewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create(string departmentSource)
         {
+            if (!this.departmentsService.IsDepartmentExist(departmentSource))
+            {
+                this.TempData["Error"] = "Department is invalid!";
+                return this.Redirect("/");
+            }
+
             var viewModel = new CreateEmployeeInputModel
             {
                 Mentors = await this.employeesService.GetAllAsKvpAsync(departmentSource),
                 Jobs = await this.jobsService.GetAllAsKvp(),
                 DepartmentName = departmentSource,
             };
+
             return this.View(viewModel);
         }
 
@@ -57,6 +74,7 @@ namespace HRCloud.Web.Controllers
                     Jobs = await this.jobsService.GetAllAsKvp(),
                     DepartmentName = input.DepartmentName,
                 };
+
                 return this.View(viewModel);
             }
 
@@ -70,9 +88,9 @@ namespace HRCloud.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            if (!this.employeesService.IsEmployeeExistById(id))
+            if (this.IsEmployeeExist(id, out var redirect))
             {
-                // TODO: Add error!
+                return redirect;
             }
 
             var viewModel = await this.employeesService
@@ -84,9 +102,9 @@ namespace HRCloud.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            if (this.employeesService.IsEmployeeExistById(id))
+            if (this.IsEmployeeExist(id, out var redirect))
             {
-                // TODO: Add validation
+                return redirect;
             }
 
             await this.employeesService.DeleteAsync(id);
@@ -97,9 +115,9 @@ namespace HRCloud.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            if (this.employeesService.IsEmployeeExistById(id))
+            if (this.IsEmployeeExist(id, out var redirect))
             {
-                // TODO: Add validation
+                return redirect;
             }
 
             var viewModel = await this.employeesService
@@ -111,16 +129,15 @@ namespace HRCloud.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditEmployeeInputModel input, string id)
         {
-            if (this.employeesService.IsEmployeeExistById(id))
+            if (this.IsEmployeeExist(id, out var redirect))
             {
-                // TODO: Add validation
+                return redirect;
             }
 
             await this.employeesService.EditAsync(input, id);
             return this.Redirect("/");
         }
 
-        // Used in Remote Validation
         [HttpGet]
         public IActionResult DoesEmailExists(string email)
         {
@@ -135,6 +152,21 @@ namespace HRCloud.Web.Controllers
             var result = this.jobsService
                 .IsJobSalaryValid(jobId, salary);
             return this.Json(result);
+        }
+
+        private bool IsEmployeeExist(string id, out IActionResult redirect)
+        {
+            redirect = this.Redirect("/");
+
+            if (!this.employeesService.IsEmployeeExistById(id))
+            {
+                this.TempData["Error"] = "Employee is invalid!";
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

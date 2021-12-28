@@ -11,6 +11,6 @@ namespace HRCloud.Services.Data.Interfaces
 
         int GetIdByName(string name);
 
-        string GetNameById(int id);
+        bool IsDepartmentExist(string departmentName);
     }
 }
